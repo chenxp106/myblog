@@ -25,7 +25,7 @@ public class SysArticle {
     private Date publishTime;
     private Date editTime;
     private Date createTime;
-    
+
 
 
 }
