@@ -8,4 +8,7 @@ public class ShiroProperties {
     private String anonUrl;
     private String loginUrl;
     private String successUrl;
+    private long sessionTimeout;
+    private int cookieTimeout;
+
 }

@@ -18,7 +18,7 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         subject.login(token);
-        return "system";
+        return "admin/index";
     }
 
     @GetMapping("/logout")
