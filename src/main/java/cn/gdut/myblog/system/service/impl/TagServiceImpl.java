@@ -9,9 +9,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -50,4 +53,20 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, SysTag> implements Ta
     public void add(SysTag tag) {
         tagMapper.insert(tag);
     }
+
+    @Override
+    public SysTag findById(Long tagId) {
+        return tagMapper.selectById(tagId);
+    }
+
+    @Override
+    public List<SysTag> selectBatchIds(Collection<? extends Serializable> ids) {
+        return tagMapper.selectBatchIds(ids);
+    }
+
+//    @Override
+//    public List<SysTag> fingByIds(String ids) {
+//
+//        return tagMapper.selectBatchIds(@Param() Collection<? extends Serializable > ids);
+//    }
 }

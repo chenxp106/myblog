@@ -27,11 +27,4 @@ public class TestLink {
         }
     }
 
-    @Test
-    public void  list(){
-        SysLink sysLink = null;
-        IPage<SysLink> pa = linkService.list(sysLink, 1, 1);
-        System.out.println(pa.toString());
-    }
-
 }

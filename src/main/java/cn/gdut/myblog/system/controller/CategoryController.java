@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,6 +17,12 @@ public class CategoryController {
 
     @Autowired
     CategoryService categoryService;
+
+    @GetMapping("/findAll")
+    public R findAll(){
+        List<SysCategory> categories = categoryService.findAll();
+        return new R<>(categories);
+    }
 
     @GetMapping("/list")
     public R list(SysCategory category, int page, int limit){
