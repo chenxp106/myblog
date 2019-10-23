@@ -5,6 +5,8 @@ import cn.gdut.myblog.system.entity.SysComment;
 import cn.gdut.myblog.system.mapper.CommentMapper;
 import cn.gdut.myblog.system.service.CommentService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,22 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, SysComment> i
     @Override
     public List<SysComment> findAllByArticle(SysArticle article) {
         return findAllByArticleId(article.getId());
+    }
+
+    @Override
+    public void add(SysComment comment) {
+        commentMapper.insert(comment);
+    }
+
+    @Override
+    public IPage<SysComment> findByPage(SysComment comment,int page, int limit) {
+        IPage<SysComment> page1 = new Page<>(page, limit);
+        LambdaQueryWrapper<SysComment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.isNoneBlank(comment.getName()), SysComment::getName, comment.getName());
+        queryWrapper.orderByDesc(SysComment::getId);
+//        queryWrapper.l
+        IPage<SysComment> commentIPage = commentMapper.selectPage(page1, queryWrapper);
+        return commentIPage;
     }
 
 //    @Override

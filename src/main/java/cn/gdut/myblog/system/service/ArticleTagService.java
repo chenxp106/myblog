@@ -1,6 +1,7 @@
 package cn.gdut.myblog.system.service;
 
 import cn.gdut.myblog.system.entity.ArticleTag;
+import cn.gdut.myblog.system.entity.SysArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -18,4 +19,17 @@ public interface ArticleTagService extends IService<ArticleTag> {
      * @param articleId
      */
     List<ArticleTag> findByArticleId(Long articleId);
+
+    /**
+     * 根据文章查找该文章的tags
+     * @param article
+     * @return
+     */
+    List<ArticleTag> findByArticle(SysArticle article);
+
+    /**
+     * 根据文章id删除文章-标签表
+     * @param articleId
+     */
+    void deleteByArticleId(Long articleId);
 }

@@ -24,9 +24,8 @@ public class ArticleController {
     @GetMapping("/list")
     public R<Map<String, Object>> findByPage(SysArticle article, int page, int limit){
 
-        IPage<SysArticle> page1 = null;
         Map<String, Object> data = new HashMap<>();
-        page1 = articleService.findByPage(article, page, limit);
+        IPage<SysArticle> page1 = articleService.findByPage(article, page, limit);
         data.put("rows", page1.getRecords());
         data.put("total", page1.getTotal());
         //

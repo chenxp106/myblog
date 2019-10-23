@@ -10,4 +10,10 @@ public interface ArticleCategoryService extends IService<ArticleCategory> {
      * @param articleCategory
      */
     void add(ArticleCategory articleCategory);
+
+    /**
+     * 根据文章id删除文章-分类表
+     * @param articleId
+     */
+    void deleteByArticleId(Long articleId);
 }

@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service.impl;
 
+import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.entity.SysCategory;
 import cn.gdut.myblog.system.mapper.CategoryMapper;
 import cn.gdut.myblog.system.service.CategoryService;
@@ -50,5 +51,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, SysCategory
     @Override
     public void update(SysCategory category) {
         categoryMapper.updateById(category);
+    }
+
+    @Override
+    public SysCategory findByArticle(SysArticle article) {
+        LambdaQueryWrapper<SysCategory> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysCategory::getId,article.getCategory());
+        SysCategory category = categoryMapper.selectOne(queryWrapper);
+        return category;
     }
 }

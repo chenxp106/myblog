@@ -2,10 +2,7 @@ package cn.gdut.myblog.system.service.impl;
 
 import cn.gdut.myblog.system.entity.*;
 import cn.gdut.myblog.system.mapper.ArticleMapper;
-import cn.gdut.myblog.system.service.ArticleCategoryService;
-import cn.gdut.myblog.system.service.ArticleService;
-import cn.gdut.myblog.system.service.ArticleTagService;
-import cn.gdut.myblog.system.service.CategoryService;
+import cn.gdut.myblog.system.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,6 +13,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +32,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, SysArticle> i
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    TagService tagService;
+
     @Override
     public List<SysArticle> findAll() {
         List<SysArticle> articles = articleMapper.selectList(new LambdaQueryWrapper<>());
@@ -49,8 +50,29 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, SysArticle> i
         wrapper.like(StringUtils.isNoneBlank(article.getAuthor()), SysArticle::getAuthor, article.getAuthor());
         // 降序排序
         wrapper.orderByDesc(SysArticle::getId);
-        IPage<SysArticle> page1 = articleMapper.selectPage(iPage, wrapper);
-        return page1;
+        IPage<SysArticle> selectPage = articleMapper.selectPage(iPage, wrapper);
+        initPage(selectPage.getRecords());
+        return selectPage;
+    }
+
+    private void initPage(List<SysArticle> articles){
+        for (SysArticle article : articles){
+            //查找文章的分类信息
+            SysCategory category = categoryService.findByArticle(article);
+            //设置category为名称而不是数字
+            article.setCategory(category.getName());
+            // 查找该文章所有的tags
+            List<ArticleTag> articleTags = articleTagService.findByArticle(article);
+            //
+            List<SysTag> tags = new ArrayList<>();
+            for (ArticleTag articleTag: articleTags){
+                SysTag tag = tagService.findById(articleTag.getTagId());
+                tags.add(tag);
+            }
+            article.setTags(tags);
+        }
+
+
     }
 
     @Override
@@ -91,7 +113,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, SysArticle> i
 
     @Override
     public void deleteById(Long id) {
-        articleMapper.deleteById(id);
+        // 删除类别，判断id的合法性
+        if (id != null && id != 0){
+            articleMapper.deleteById(id);
+            // 同时删除文章-分类表
+            articleCategoryService.deleteByArticleId(id);
+            // 删除文章-标签表
+            articleTagService.deleteByArticleId(id);
+        }
+
     }
 
 

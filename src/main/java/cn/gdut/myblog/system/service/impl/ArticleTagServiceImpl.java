@@ -1,6 +1,8 @@
 package cn.gdut.myblog.system.service.impl;
 
 import cn.gdut.myblog.system.entity.ArticleTag;
+import cn.gdut.myblog.system.entity.SysArticle;
+import cn.gdut.myblog.system.entity.SysTag;
 import cn.gdut.myblog.system.mapper.ArticleTagMapper;
 import cn.gdut.myblog.system.service.ArticleTagService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -26,6 +28,19 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper,ArticleT
         LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ArticleTag::getArticleId, articleId);
         return articleTagMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<ArticleTag> findByArticle(SysArticle article) {
+        List<ArticleTag> articleTags = findByArticleId(article.getId());
+        return articleTags;
+    }
+
+    @Override
+    public void deleteByArticleId(Long articleId) {
+        LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ArticleTag::getArticleId, articleId);
+        articleTagMapper.delete(queryWrapper);
     }
 
 

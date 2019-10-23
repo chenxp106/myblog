@@ -83,4 +83,10 @@ public class SystemRouterController {
         return "admin/page/article/edit";
     }
 
+    // 评论相关
+    @GetMapping("/admin/page/comment")
+    public String comment(){
+        return "admin/page/comment/index";
+    }
+
 }

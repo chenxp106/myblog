@@ -2,6 +2,7 @@ package cn.gdut.myblog.system.service;
 
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.entity.SysComment;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -42,5 +43,19 @@ public interface CommentService extends IService<SysComment> {
      * @return
      */
     List<SysComment> findAllByArticle(SysArticle article);
+
+    /**
+     * 添加评论
+     * @param comment
+     */
+    void add(SysComment comment);
+
+    /**
+     * 分页查询
+     * @param page
+     * @param limit
+     * @return
+     */
+    IPage<SysComment> findByPage(SysComment comment,int page, int limit);
 
 }

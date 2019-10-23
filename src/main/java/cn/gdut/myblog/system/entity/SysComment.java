@@ -1,5 +1,7 @@
 package cn.gdut.myblog.system.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -9,6 +11,7 @@ import java.util.Date;
 @TableName("tb_comment")
 public class SysComment {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long pId;
     private Long cId;
