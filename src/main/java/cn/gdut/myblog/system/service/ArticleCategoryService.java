@@ -16,4 +16,10 @@ public interface ArticleCategoryService extends IService<ArticleCategory> {
      * @param articleId
      */
     void deleteByArticleId(Long articleId);
+
+    /**
+     * 根据分类id删除
+     * @param categoryId
+     */
+    void deleteByCategoryId(Long categoryId);
 }

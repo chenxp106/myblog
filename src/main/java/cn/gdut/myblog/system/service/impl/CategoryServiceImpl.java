@@ -3,7 +3,7 @@ package cn.gdut.myblog.system.service.impl;
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.entity.SysCategory;
 import cn.gdut.myblog.system.mapper.CategoryMapper;
-import cn.gdut.myblog.system.service.CategoryService;
+import cn.gdut.myblog.system.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, SysCategory
 
     @Autowired
     CategoryMapper categoryMapper;
+
+    @Autowired
+    ArticleService articleService;
+
+    @Autowired
+    ArticleCategoryService articleCategoryService;
+
+    @Autowired
+    ArticleTagService articleTagService;
+
+    @Autowired
+    CommentService commentService;
 
     @Override
     public List<SysCategory> findAll() {
@@ -39,16 +52,38 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, SysCategory
     }
 
     @Override
+    @Transactional
     public void add(SysCategory category) {
         categoryMapper.insert(category);
     }
 
+    /**
+     * 删除分类信息，需要删除与该分类相关的文章
+     * @param categoryId categoryId
+     */
     @Override
-    public void delete(int id) {
-        categoryMapper.deleteById(id);
+    @Transactional
+    public void delete(Long categoryId) {
+        //先根据categoryId 查找文章
+        List<SysArticle> articles = articleService.findByCategoryId(categoryId);
+        for (SysArticle article:articles){
+            articleTagService.deleteByArticleId(article.getId());
+            // 删除评论信息
+            commentService.deleteByArticleId(article.getId());
+        }
+        // 删除分类信息表
+        categoryMapper.deleteById(categoryId);
+        //  根据分类信息删除article表
+        articleService.deleteByCategoryId(categoryId);
+        // 根据categoryId删除category-article表
+        articleCategoryService.deleteByCategoryId(categoryId);
+        // 删除tag相关信息
+
+
     }
 
     @Override
+    @Transactional
     public void update(SysCategory category) {
         categoryMapper.updateById(category);
     }

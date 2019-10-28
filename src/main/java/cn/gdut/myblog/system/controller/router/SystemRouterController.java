@@ -34,6 +34,7 @@ public class SystemRouterController {
         return "admin/page/index";
     }
 
+    // tag相关
     @GetMapping("/admin/page/tag")
     public String tag(){
         return "admin/page/tag/index";
@@ -44,6 +45,7 @@ public class SystemRouterController {
         return "admin/page/tag/form";
     }
 
+    // link相关
     @GetMapping("/admin/page/link")
     public String link(){
         return "admin/page/link/index";
@@ -54,7 +56,7 @@ public class SystemRouterController {
         return "admin/page/link/form";
     }
 
-
+    // category相关
     @GetMapping("/admin/page/category")
     public String category(){
         return "admin/page/category/index";

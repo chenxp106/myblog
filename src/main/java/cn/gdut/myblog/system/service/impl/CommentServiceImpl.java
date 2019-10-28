@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, SysComment> i
     }
 
     @Override
+    @Transactional
     public void add(SysComment comment) {
         commentMapper.insert(comment);
     }
@@ -67,6 +69,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, SysComment> i
 //        queryWrapper.l
         IPage<SysComment> commentIPage = commentMapper.selectPage(page1, queryWrapper);
         return commentIPage;
+    }
+
+    @Override
+    @Transactional
+    public void deleteByArticleId(Long ArticleId) {
+        LambdaQueryWrapper<SysComment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysComment::getArticleId, ArticleId);
+        commentMapper.delete(queryWrapper);
     }
 
 //    @Override

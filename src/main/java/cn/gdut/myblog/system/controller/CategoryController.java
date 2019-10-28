@@ -33,14 +33,14 @@ public class CategoryController {
         return new R<>(data);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public R add(@RequestBody SysCategory category){
         categoryService.add(category);
         return new R<>();
     }
 
     @GetMapping("/{id}")
-    public R add(@PathVariable int id){
+    public R add(@PathVariable Long id){
         categoryService.delete(id);
         return new R<>();
     }
@@ -52,7 +52,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public R delete(@PathVariable int id){
+    public R delete(@PathVariable Long id){
         categoryService.delete(id);
         return new R<>();
     }

@@ -9,9 +9,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,12 +76,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, SysArticle> i
     }
 
     @Override
+    @Transactional
     public void add(SysArticle article) {
         // 将作者,创建时间，修改时间完善。
         article.setAuthor(((SysUser)SecurityUtils.getSubject().getPrincipal()).getUsername());
         article.setCreateTime(new Date());
         article.setEditTime(new Date());
         articleMapper.insert(article);
+//        int i = 1/0;
         // 将tag保存起来
         if (article.getTags() != null && article.getTags().size() > 0){
             for (SysTag tag : article.getTags()){
@@ -106,12 +108,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, SysArticle> i
     }
 
     @Override
+    @Transactional
     public void edit(SysArticle article) {
         article.setEditTime(new Date());
         articleMapper.updateById(article);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         // 删除类别，判断id的合法性
         if (id != null && id != 0){
@@ -122,6 +126,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, SysArticle> i
             articleTagService.deleteByArticleId(id);
         }
 
+    }
+
+    @Override
+    @Transactional
+    public void deleteByCategoryId(Long id) {
+        LambdaQueryWrapper<SysArticle> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysArticle::getCategory, id);
+        articleMapper.delete(queryWrapper);
+    }
+
+    /**
+     *
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<SysArticle> findByCategoryId(Long categoryId) {
+        LambdaQueryWrapper<SysArticle> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysArticle::getCategory, categoryId);
+        List<SysArticle> articles = articleMapper.selectList(queryWrapper);
+        return articles;
     }
 
 

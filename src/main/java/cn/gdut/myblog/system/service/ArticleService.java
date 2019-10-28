@@ -45,4 +45,17 @@ public interface ArticleService  extends IService<SysArticle> {
     void edit(SysArticle article);
 
     void deleteById(Long id);
+
+    /**
+     * 根据分类id删除
+     * @param id
+     */
+    void deleteByCategoryId(Long id);
+
+    /**
+     * 根据分类id查找所有文章
+     * @param categoryId
+     * @return
+     */
+    List<SysArticle> findByCategoryId(Long categoryId);
 }

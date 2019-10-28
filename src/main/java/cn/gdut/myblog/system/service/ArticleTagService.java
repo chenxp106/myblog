@@ -32,4 +32,17 @@ public interface ArticleTagService extends IService<ArticleTag> {
      * @param articleId
      */
     void deleteByArticleId(Long articleId);
+
+    /**
+     * 根据tagId查找所有
+     * @param tagId
+     * @return
+     */
+    List<ArticleTag> findByTagId(Long tagId);
+
+    /**
+     * 根据主键id删除
+     * @param id
+     */
+    void deleteByArticleTagId(Long id);
 }

@@ -19,7 +19,10 @@ public interface CategoryService extends IService<SysCategory> {
 
     void add(SysCategory category);
 
-    void delete(int id);
+    /*
+    根据id删除分类
+     */
+    void delete(Long categoryId);
 
     void update(SysCategory category);
 

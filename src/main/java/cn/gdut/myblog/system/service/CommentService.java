@@ -58,4 +58,10 @@ public interface CommentService extends IService<SysComment> {
      */
     IPage<SysComment> findByPage(SysComment comment,int page, int limit);
 
+    /**
+     * 根据文章Id删除评论
+     * @param ArticleId
+     */
+    void deleteByArticleId(Long ArticleId);
+
 }

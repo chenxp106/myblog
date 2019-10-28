@@ -13,4 +13,8 @@ import org.springframework.context.annotation.PropertySource;
 public class MyBlogProperties {
 
     private ShiroProperties shiro = new ShiroProperties();
+
+//    private QiniuProperties qiniu = new QiniuProperties();
+
+    private TengxunProperties tengxun = new TengxunProperties();
 }
