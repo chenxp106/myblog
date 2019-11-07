@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.controller;
 
+import cn.gdut.myblog.common.annotation.Log;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysLink;
 import cn.gdut.myblog.system.service.LinkService;
@@ -30,12 +31,14 @@ public class LinkController {
     }
 
     @PostMapping
+    @Log("更新链接")
     public R edit(@RequestBody SysLink link){
         linkService.save(link);
         return new R<>();
     }
 
     @DeleteMapping("/{id}")
+    @Log("删除链接")
     public R delete(@PathVariable int id){
         linkService.removeById(id);
         return new R<>();

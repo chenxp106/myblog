@@ -1,15 +1,15 @@
 package cn.gdut.myblog.system.controller;
 
+import cn.gdut.myblog.common.annotation.Log;
 import cn.gdut.myblog.common.utils.IpUtil;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysUser;
 import cn.gdut.myblog.system.service.ArticleService;
 import cn.gdut.myblog.system.service.CommentService;
+import cn.gdut.myblog.system.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -25,6 +25,9 @@ public class UserController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
 
 
     /**
@@ -43,5 +46,12 @@ public class UserController {
         Serializable token = SecurityUtils.getSubject().getSession().getId();
         map.put("token",token);
         return new R<>(map);
+    }
+
+    @PutMapping
+    @Log("更新用户")
+    public R edit(@RequestBody SysUser sysUser){
+        userService.update(sysUser);
+        return new R<>();
     }
 }

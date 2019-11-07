@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.controller;
 
+import cn.gdut.myblog.common.annotation.Log;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysCategory;
 import cn.gdut.myblog.system.service.CategoryService;
@@ -40,18 +41,21 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
+    @Log("新增分类")
     public R add(@PathVariable Long id){
         categoryService.delete(id);
         return new R<>();
     }
 
     @PutMapping
+    @Log("更新分类")
     public R edit(@RequestBody SysCategory category){
         categoryService.update(category);
         return new R<>();
     }
 
     @DeleteMapping("/{id}")
+    @Log("删除分类")
     public R delete(@PathVariable Long id){
         categoryService.delete(id);
         return new R<>();

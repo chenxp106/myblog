@@ -9,7 +9,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-@TableName(value = "tb_blog")
+@TableName(value = "tb_log")
 @Data
 public class SysLog implements Serializable {
 
@@ -18,12 +18,13 @@ public class SysLog implements Serializable {
 
     private String username;
     private String operation;
-    private Date time;
+    // 操作时间
+    private Long time;
     private String method;
     private String params;
     private String ip;
     @TableField(value = "create_time")
     private Date createTime;
-    private String locarion;
+    private String location;
 
 }

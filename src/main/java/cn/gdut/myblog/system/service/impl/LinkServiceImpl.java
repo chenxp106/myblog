@@ -36,4 +36,5 @@ public class LinkServiceImpl  extends ServiceImpl<LinkMapper, SysLink>  implemen
         return linkMapper.selectPage(linkIPage,wrapper);
     }
 
+
 }

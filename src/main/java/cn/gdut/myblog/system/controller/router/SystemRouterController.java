@@ -91,4 +91,22 @@ public class SystemRouterController {
         return "admin/page/comment/index";
     }
 
+
+    // 日志相关
+    @GetMapping("/admin/page/log")
+    public String log(){
+        return "admin/page/log/index";
+    }
+
+    // 用户相关
+    @GetMapping("/admin/page/user/profile")
+    public String profile(){
+        return "admin/page/user/profile";
+    }
+
+    @GetMapping("/admin/page/user/edit")
+    public String userEdit(){
+        return "admin/page/user/edit";
+    }
+
 }

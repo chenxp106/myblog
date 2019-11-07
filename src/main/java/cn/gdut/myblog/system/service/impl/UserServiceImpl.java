@@ -23,4 +23,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SysUser> implements
         List<SysUser> list = userMapper.selectList(queryWrapper);
         return list.size() > 0 ? list.get(0) : null;
     }
+
+    @Override
+    public void update(SysUser sysUser) {
+        sysUser.setId(findByName(sysUser.getUsername()).getId());
+        userMapper.updateById(sysUser);
+    }
 }

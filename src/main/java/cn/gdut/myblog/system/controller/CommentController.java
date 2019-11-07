@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.controller;
 
+import cn.gdut.myblog.common.annotation.Log;
 import cn.gdut.myblog.common.utils.AddressUtil;
 import cn.gdut.myblog.common.utils.IpUtil;
 import cn.gdut.myblog.common.utils.R;
