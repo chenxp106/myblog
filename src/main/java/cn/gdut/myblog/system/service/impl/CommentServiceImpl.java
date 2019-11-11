@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service.impl;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.entity.SysComment;
 import cn.gdut.myblog.system.mapper.CommentMapper;
@@ -61,8 +62,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, SysComment> i
     }
 
     @Override
-    public IPage<SysComment> findByPage(SysComment comment,int page, int limit) {
-        IPage<SysComment> page1 = new Page<>(page, limit);
+    public IPage<SysComment> findByPage(SysComment comment, QueryPage queryPage) {
+        IPage<SysComment> page1 = new Page<>(queryPage.getPage(), queryPage.getLimit());
         LambdaQueryWrapper<SysComment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StringUtils.isNoneBlank(comment.getName()), SysComment::getName, comment.getName());
         queryWrapper.orderByDesc(SysComment::getId);

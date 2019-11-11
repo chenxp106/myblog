@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service.impl;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysLog;
 import cn.gdut.myblog.system.entity.SysLoginLog;
 import cn.gdut.myblog.system.mapper.LoginLogMapper;
@@ -23,8 +24,8 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, SysLoginLog
     }
 
     @Override
-    public IPage<SysLoginLog> findByPage(SysLoginLog sysLoginLog,int page, int limit) {
-        IPage<SysLoginLog> page1 = new Page<>(page, limit);
+    public IPage<SysLoginLog> findByPage(SysLoginLog sysLoginLog, QueryPage queryPage) {
+        IPage<SysLoginLog> page1 = new Page<>(queryPage.getPage(),queryPage.getLimit());
         LambdaQueryWrapper<SysLoginLog> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.orderByDesc(SysLoginLog::getId);
         IPage<SysLoginLog> sysLoginLogIPage = loginLogMapper.selectPage(page1, queryWrapper);

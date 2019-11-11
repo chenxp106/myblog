@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service.impl;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.*;
 import cn.gdut.myblog.system.mapper.ArticleMapper;
 import cn.gdut.myblog.system.service.*;
@@ -42,8 +43,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, SysArticle> i
     }
 
     @Override
-    public IPage<SysArticle> findByPage(SysArticle article, int page, int limit) {
-        IPage<SysArticle> iPage = new Page<>(page, limit);
+    public IPage<SysArticle> findByPage(SysArticle article, QueryPage queryPage) {
+        IPage<SysArticle> iPage = new Page<>(queryPage.getPage(), queryPage.getLimit());
         LambdaQueryWrapper<SysArticle> wrapper = new LambdaQueryWrapper<>();
         // 按标题和作者查询
         wrapper.like(StringUtils.isNoneBlank(article.getTitle()), SysArticle::getTitle, article.getTitle());

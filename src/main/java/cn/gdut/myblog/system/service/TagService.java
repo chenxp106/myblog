@@ -1,6 +1,7 @@
 package cn.gdut.myblog.system.service;
 
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysTag;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -25,7 +26,7 @@ public interface TagService extends IService<SysTag> {
      * @param limit
      * @return
      */
-    IPage<SysTag> list(SysTag tag, int page, int limit);
+    IPage<SysTag> findByPage(SysTag tag, QueryPage queryPage);
 
     /**
      * 更新
@@ -48,4 +49,11 @@ public interface TagService extends IService<SysTag> {
     SysTag findById(Long tagId);
 
     List<SysTag> selectBatchIds(@Param("ids")Collection<? extends Serializable> ids);
+
+    /**
+     * 根据文章id查找
+     * @param articleId
+     * @return
+     */
+    List<SysTag> findByArticleId(Long articleId);
 }

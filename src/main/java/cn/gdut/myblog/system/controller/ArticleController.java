@@ -1,6 +1,8 @@
 package cn.gdut.myblog.system.controller;
 
 import cn.gdut.myblog.common.annotation.Log;
+import cn.gdut.myblog.common.controller.BaseController;
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.service.ArticleService;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/article")
-public class ArticleController {
+public class ArticleController extends BaseController {
 
     @Autowired
     ArticleService articleService;
@@ -23,14 +25,10 @@ public class ArticleController {
     ArticleTagService articleTagService;
 
     @GetMapping("/list")
-    public R<Map<String, Object>> findByPage(SysArticle article, int page, int limit){
+    public R  findByPage(SysArticle article, QueryPage queryPage){
 
-        Map<String, Object> data = new HashMap<>();
-        IPage<SysArticle> page1 = articleService.findByPage(article, page, limit);
-        data.put("rows", page1.getRecords());
-        data.put("total", page1.getTotal());
-        //
-        return new R(data);
+        IPage<SysArticle> page1 = articleService.findByPage(article, queryPage);
+        return new R<>(super.getData(page1));
     }
 
     @PostMapping

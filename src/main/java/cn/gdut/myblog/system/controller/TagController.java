@@ -1,5 +1,7 @@
 package cn.gdut.myblog.system.controller;
 
+import cn.gdut.myblog.common.controller.BaseController;
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysTag;
 import cn.gdut.myblog.system.service.TagService;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tag")
-public class TagController {
+public class TagController extends BaseController {
 
     @Autowired
     TagService tagService;
@@ -25,20 +27,11 @@ public class TagController {
         return new R<>(tagService.findAll());
     }
 
-    /**
-     * 分页查询
-     * @param tag 属性
-     * @param page  当前页
-     * @param limit limit
-     * @return
-     */
+
     @RequestMapping("/list")
-    public R findByPage(SysTag tag, int page, int limit){
-        IPage<SysTag> tags = tagService.list(tag,page, limit);
-        Map<String, Object > data = new HashMap<>();
-        data.put("rows", tags.getRecords());
-        data.put("total",tags.getTotal());
-        return new R<>(data);
+    public R findByPage(SysTag tag, QueryPage queryPage){
+        IPage<SysTag> tags = tagService.findByPage(tag,queryPage);
+        return new R<>(super.getData(tags));
     }
 
     @PutMapping

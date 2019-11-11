@@ -1,6 +1,8 @@
 package cn.gdut.myblog.system.controller;
 
 import cn.gdut.myblog.common.annotation.Log;
+import cn.gdut.myblog.common.controller.BaseController;
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysLink;
 import cn.gdut.myblog.system.service.LinkService;
@@ -14,20 +16,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/link")
-public class LinkController {
+public class LinkController extends BaseController {
 
     @Autowired
     LinkService linkService;
 
 
     @GetMapping("/list")
-    public R findByPage(SysLink sysLink, int page, int limit){
+    public R findByPage(SysLink sysLink, QueryPage queryPage){
 
-        IPage<SysLink> page1 = linkService.list(sysLink, page, limit);
-        Map<String,Object> map = new HashMap<>();
-        map.put("rows",page1.getRecords());
-        map.put("total",page1.getTotal());
-        return new R<>(map);
+        IPage<SysLink> page1 = linkService.findByPage(sysLink, queryPage);
+        return new R<>(super.getData(page1));
     }
 
     @PostMapping

@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysLog;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -15,7 +16,7 @@ public interface LogService extends IService<SysLog> {
      * @param limit
      * @return
      */
-    IPage<SysLog> findByPage(SysLog sysLog, int page, int limit);
+    IPage<SysLog> findByPage(SysLog sysLog, QueryPage queryPage);
 
     void saveLog(ProceedingJoinPoint proceedingJoinPoint) throws JsonProcessingException;
 

@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service.impl;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.entity.SysCategory;
 import cn.gdut.myblog.system.mapper.CategoryMapper;
@@ -41,8 +42,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, SysCategory
     }
 
     @Override
-    public IPage<SysCategory> findByPage(SysCategory category, int page, int limit) {
-        IPage<SysCategory> page1 = new Page<>(page,limit);
+    public IPage<SysCategory> findByPage(SysCategory category, QueryPage queryPage) {
+        IPage<SysCategory> page1 = new Page<>(queryPage.getPage(),queryPage.getLimit());
         // 构建查询表达式
         LambdaQueryWrapper<SysCategory> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNoneBlank(category.getName()),SysCategory::getName,category.getName());
@@ -94,5 +95,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, SysCategory
         queryWrapper.eq(SysCategory::getId,article.getCategory());
         SysCategory category = categoryMapper.selectOne(queryWrapper);
         return category;
+    }
+
+    @Override
+    public SysCategory findByCategoryId(Long id) {
+        return categoryMapper.selectById(id);
     }
 }

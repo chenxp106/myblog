@@ -1,16 +1,14 @@
 package cn.gdut.myblog.system.controller.router;
 
-import cn.gdut.myblog.system.entity.ArticleTag;
-import cn.gdut.myblog.system.entity.SysArticle;
-import cn.gdut.myblog.system.entity.SysComment;
-import cn.gdut.myblog.system.entity.SysTag;
-import cn.gdut.myblog.system.service.ArticleService;
-import cn.gdut.myblog.system.service.ArticleTagService;
-import cn.gdut.myblog.system.service.CommentService;
-import cn.gdut.myblog.system.service.TagService;
+import cn.gdut.myblog.common.constants.CommonConstant;
+import cn.gdut.myblog.system.entity.*;
+import cn.gdut.myblog.system.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,12 +38,42 @@ public class SiteRouterController {
     @Autowired
     TagService tagService;
 
+    @Autowired
+    CategoryService categoryService;
+
     @RequestMapping({"", "/"})
     public String index(Model model){
         IPage<SysArticle> page = new Page<>(1,12);
         LambdaQueryWrapper<SysArticle> queryWrapper = new LambdaQueryWrapper<>();
+        // 降序排序文章
         queryWrapper.orderByDesc(SysArticle::getId);
+        // 只选择已经发表的文章
+        queryWrapper.eq(SysArticle::getState, CommonConstant.DEFAULT_RELEASE_STATUS);
         IPage<SysArticle> list = articleService.page(page, queryWrapper);
+        // 对所有的文章添加分类信息
+        list.getRecords().forEach(article -> {
+            //Jsoup是一个html解析器。
+            String context = Jsoup.parse(article.getContent()).text();
+            // 如果长度超过50，截取部分放入context
+            if (context.length() > 50 ){
+                context = context.substring(0,50) + "...";
+            }
+            article.setContent(context);
+            article.setContentMd(null);
+
+            // 设置分类信息
+            if (StringUtils.isNoneBlank(article.getCategory())){
+                // 设置分类信息
+                SysCategory category = categoryService.getById(article.getCategory());
+                if (category != null){
+                    article.setCategory(category.getName());
+                }
+                else {
+                    article.setCategory(null);
+                }
+            }
+        });
+
 
         Map<String,Object> data = new HashMap<>();
         data.put("current", list.getCurrent());
@@ -93,6 +121,7 @@ public class SiteRouterController {
             tags.add(tag);
         }
         article.setTags(tags);
+
         model.addAttribute("p",article);
 
         return "site/page/article_change";

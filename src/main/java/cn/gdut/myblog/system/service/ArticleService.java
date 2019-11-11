@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysArticle;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -19,12 +20,11 @@ public interface ArticleService  extends IService<SysArticle> {
 
     /**
      * 分页查询
-     * @param article 文章实体，携带查询的条件
-     * @param page 当前页
-     * @param limit 每页展示的条目
-     * @return 封装好的Article
+     * @param article 文章
+     * @param queryPage 分页查询的信息
+     * @return
      */
-    IPage<SysArticle> findByPage(SysArticle article, int page, int limit);
+    IPage<SysArticle> findByPage(SysArticle article, QueryPage queryPage);
 
     /**
      * 新增

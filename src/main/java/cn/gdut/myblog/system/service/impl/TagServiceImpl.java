@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service.impl;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.ArticleTag;
 import cn.gdut.myblog.system.entity.SysTag;
 import cn.gdut.myblog.system.mapper.TagMapper;
@@ -42,8 +43,8 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, SysTag> implements Ta
     }
 
     @Override
-    public IPage<SysTag> list(SysTag tag, int page, int limit) {
-        IPage<SysTag> page1 = new Page<>(page,limit);
+    public IPage<SysTag> findByPage(SysTag tag, QueryPage queryPage) {
+        IPage<SysTag> page1 = new Page<>(queryPage.getPage(),queryPage.getLimit());
         // 构造查询的条件
         LambdaQueryWrapper<SysTag> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StringUtils.isNoneBlank(tag.getName()),SysTag::getName,tag.getName());
@@ -98,6 +99,11 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, SysTag> implements Ta
         return tagMapper.selectBatchIds(ids);
     }
 
+    @Override
+    public List<SysTag> findByArticleId(Long articleId) {
+
+        return tagMapper.findByArticleId(articleId);
+    }
 
 
 //    @Override

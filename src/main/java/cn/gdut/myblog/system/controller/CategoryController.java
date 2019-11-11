@@ -1,6 +1,8 @@
 package cn.gdut.myblog.system.controller;
 
 import cn.gdut.myblog.common.annotation.Log;
+import cn.gdut.myblog.common.controller.BaseController;
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysCategory;
 import cn.gdut.myblog.system.service.CategoryService;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/category")
-public class CategoryController {
+public class CategoryController extends BaseController {
 
     @Autowired
     CategoryService categoryService;
@@ -26,12 +28,9 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
-    public R list(SysCategory category, int page, int limit){
-        IPage<SysCategory> page1 = categoryService.findByPage(category, page, limit);
-        Map<String, Object> data = new HashMap<>();
-        data.put("rows", page1.getRecords());
-        data.put("total",page1.getTotal());
-        return new R<>(data);
+    public R list(SysCategory category, QueryPage queryPage){
+        IPage<SysCategory> page1 = categoryService.findByPage(category, queryPage);
+        return new R<>(super.getData(page1));
     }
 
     @PostMapping

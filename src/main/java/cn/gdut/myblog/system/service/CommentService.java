@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.entity.SysComment;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -52,11 +53,11 @@ public interface CommentService extends IService<SysComment> {
 
     /**
      * 分页查询
-     * @param page
-     * @param limit
+     * @param comment
+     * @param queryPage
      * @return
      */
-    IPage<SysComment> findByPage(SysComment comment,int page, int limit);
+    IPage<SysComment> findByPage(SysComment comment, QueryPage queryPage);
 
     /**
      * 根据文章Id删除评论

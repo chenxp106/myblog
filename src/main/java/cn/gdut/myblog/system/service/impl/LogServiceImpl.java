@@ -4,6 +4,7 @@ import cn.gdut.myblog.common.annotation.Log;
 import cn.gdut.myblog.common.utils.AddressUtil;
 import cn.gdut.myblog.common.utils.HttpContextUtil;
 import cn.gdut.myblog.common.utils.IpUtil;
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysLog;
 import cn.gdut.myblog.system.entity.SysUser;
 import cn.gdut.myblog.system.mapper.LogMapper;
@@ -37,8 +38,8 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, SysLog> implements Lo
     private ObjectMapper objectMapper;
 
     @Override
-    public IPage<SysLog> findByPage(SysLog sysLog, int page, int limit) {
-        IPage<SysLog> page1 = new Page<>(page, limit);
+    public IPage<SysLog> findByPage(SysLog sysLog, QueryPage queryPage) {
+        IPage<SysLog> page1 = new Page<>(queryPage.getPage(), queryPage.getLimit());
         // 查询条件
         LambdaQueryWrapper<SysLog> queryWrapper = new LambdaQueryWrapper<>();
         // 根据成名查询

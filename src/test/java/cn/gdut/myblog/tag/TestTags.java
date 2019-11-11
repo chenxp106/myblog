@@ -52,4 +52,12 @@ public class TestTags {
             System.out.println(tag);
         }
     }
+
+    @Test
+    public void findByArticleId(){
+        List<SysTag> sysTags = tagMapper.findByArticleId(42L);
+        for (SysTag sysTag : sysTags){
+            System.out.println(sysTag);
+        }
+    }
 }

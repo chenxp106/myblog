@@ -2,6 +2,8 @@ package cn.gdut.myblog.system.controller.router;
 
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.service.ArticleService;
+import cn.gdut.myblog.system.service.CategoryService;
+import cn.gdut.myblog.system.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,12 @@ public class SystemRouterController {
 
     @Autowired
     ArticleService articleService;
+
+    @Autowired
+    TagService tagService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @GetMapping("/login")
     public String login(){
@@ -81,6 +89,8 @@ public class SystemRouterController {
     @GetMapping("/admin/page//article/edit/{id}")
     public String articleEdit(@PathVariable Long id, Model model){
         SysArticle article = articleService.findById(id);
+        // 设置tags
+        article.setTags(tagService.findByArticleId(article.getId()));
         model.addAttribute("p",article);
         return "admin/page/article/edit";
     }

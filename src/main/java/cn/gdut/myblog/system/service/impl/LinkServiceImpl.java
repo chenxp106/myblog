@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service.impl;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysLink;
 import cn.gdut.myblog.system.mapper.LinkMapper;
 import cn.gdut.myblog.system.service.LinkService;
@@ -27,9 +28,9 @@ public class LinkServiceImpl  extends ServiceImpl<LinkMapper, SysLink>  implemen
     }
 
     @Override
-    public IPage<SysLink> list(SysLink link, int page, int limit) {
+    public IPage<SysLink> findByPage(SysLink link, QueryPage queryPage) {
 
-        IPage<SysLink> linkIPage = new Page<>(page,limit);
+        IPage<SysLink> linkIPage = new Page<>(queryPage.getPage(),queryPage.getLimit());
         LambdaQueryWrapper<SysLink> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNoneBlank(link.getName()),SysLink::getName, link.getName());
         wrapper.orderByDesc(SysLink::getId);

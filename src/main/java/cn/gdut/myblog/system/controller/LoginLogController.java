@@ -1,29 +1,24 @@
 package cn.gdut.myblog.system.controller;
 
+import cn.gdut.myblog.common.controller.BaseController;
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.common.utils.R;
 import cn.gdut.myblog.system.entity.SysLoginLog;
 import cn.gdut.myblog.system.service.LoginLogService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/loginlog")
-public class LoginLogController {
+public class LoginLogController extends BaseController {
 
     @Autowired
     LoginLogService loginLogService;
 
     @GetMapping("/list")
-    public R findByPage(SysLoginLog loginLog,int page, int limit){
-        IPage<SysLoginLog> page1 = loginLogService.findByPage(loginLog, page, limit);
-        Map<String,Object> date = new HashMap<>();
-        date.put("rows",page1.getRecords());
-        date.put("total",page1.getTotal());
-        return new R<>(date);
+    public R findByPage(SysLoginLog loginLog, QueryPage queryPage){
+        return new R<>(super.getData(loginLogService.findByPage(loginLog, queryPage)));
     }
 
     @DeleteMapping("/{id}")

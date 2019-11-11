@@ -1,5 +1,6 @@
 package cn.gdut.myblog.system.service;
 
+import cn.gdut.myblog.common.utils.QueryPage;
 import cn.gdut.myblog.system.entity.SysArticle;
 import cn.gdut.myblog.system.entity.SysCategory;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,7 +16,7 @@ public interface CategoryService extends IService<SysCategory> {
      */
     List<SysCategory> findAll();
 
-    IPage<SysCategory> findByPage(SysCategory category, int page, int limit);
+    IPage<SysCategory> findByPage(SysCategory category, QueryPage queryPage);
 
     void add(SysCategory category);
 
@@ -32,4 +33,6 @@ public interface CategoryService extends IService<SysCategory> {
      * @return
      */
     SysCategory findByArticle(SysArticle article);
+
+    SysCategory findByCategoryId(Long id);
 }

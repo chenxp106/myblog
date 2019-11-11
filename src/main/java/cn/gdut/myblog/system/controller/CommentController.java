@@ -1,10 +1,8 @@
 package cn.gdut.myblog.system.controller;
 
 import cn.gdut.myblog.common.annotation.Log;
-import cn.gdut.myblog.common.utils.AddressUtil;
-import cn.gdut.myblog.common.utils.IpUtil;
-import cn.gdut.myblog.common.utils.R;
-import cn.gdut.myblog.common.utils.UserAgent;
+import cn.gdut.myblog.common.controller.BaseController;
+import cn.gdut.myblog.common.utils.*;
 import cn.gdut.myblog.system.entity.SysComment;
 import cn.gdut.myblog.system.service.CommentService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -19,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comment")
-public class CommentController {
+public class CommentController extends BaseController {
 
     @Autowired
     CommentService commentService;
@@ -42,13 +40,10 @@ public class CommentController {
 
 
     @GetMapping("/list")
-    public R list(SysComment comment,int page, int limit){
+    public R list(SysComment comment, QueryPage queryPage){
 
-        IPage<SysComment> iPage = commentService.findByPage(comment,page, limit);
-        Map<String, Object> data = new HashMap<>();
-        data.put("rows", iPage.getRecords());
-        data.put("total",iPage.getTotal());
-        return new R<>(data);
+        IPage<SysComment> iPage = commentService.findByPage(comment,queryPage);
+        return new R<>(super.getData(iPage));
     }
 
 }
